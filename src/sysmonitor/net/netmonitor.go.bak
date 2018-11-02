@@ -1,0 +1,54 @@
+package net
+
+import (
+	_"fmt"
+	"strings"
+	_"errors"
+	_"encoding/json"
+    "sysmonitor/common"
+	models "sysmonitor/net/models"
+    _"sysmonitor/profile"
+	_"github.com/shirou/gopsutil/net"
+)
+
+func NetMonitor() string {
+  var element models.Element
+
+  //net_interface, _ := net.Interfaces()
+  //net_iocount, _ := net.IOCounters(true)
+  //element.NetMetric, err = NetIOCounters(hosttype, strings.Split(extra_eths, ","), strings.Split(intra_eths, ","))
+
+  element.NetMetric, _ = NetIOCounters("test", strings.Split("eth1", ","), strings.Split("eth0", ","))
+  //Network := make(map[string]profile.NetInfo)
+
+  /*
+  for _, v := range net_iocount {
+	  var ii profile.NetInfo
+		ii.ByteSent = v.BytesSent
+		ii.ByteRecv = v.BytesRecv
+		Network[v.Name] = ii
+  }
+  */
+
+  /*
+  for _, v := range net_interface {
+	if ii, ok := Network[v.Name]; ok {
+	  ii.Addrs = make([]string, len(v.Addrs))
+		for i, vv := range v.Addrs {
+		  ii.Addrs[i] = vv.Addr
+		}
+	  Network[v.Name] = ii
+	}
+  }
+  */
+
+  /*
+  net_result := new (profile.Item)
+    net_result.Name = "Net_monitor"
+    net_result.Payload = Network
+    result := common.JsonMarshal(net_result)
+    return result
+ */
+  result := common.JsonMarshal(element.NetMetric)
+  return result
+}
